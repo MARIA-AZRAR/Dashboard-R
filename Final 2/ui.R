@@ -67,7 +67,7 @@ shinyUI(
                      plotOutput('Tree' )),
                 box(title = "Confusion Matrix", status = "primary",solidHeader = T,background = "olive" , helpText("Prediction Results Using Testing data"),
                     verbatimTextOutput('confusionmatrix')),
-                box(title = "Accuray", status = "primary",solidHeader = T,background = "olive" , helpText("Accuracy of Testing Data"),
+                box(title = "Accuray",  status = "primary",solidHeader = T,background = "olive" , helpText("Accuracy of Testing Data"),
                     verbatimTextOutput('accuray'))
                 
                 
