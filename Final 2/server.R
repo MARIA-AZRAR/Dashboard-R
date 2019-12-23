@@ -7,7 +7,8 @@ library(rpart)
 library(rpart.plot)
 library(rattle)
 library(mlbench)
-
+library(RWeka)
+library(decision)
 shinyServer(function(input,output) {
   
   output$histogram <- renderPlot({
@@ -78,21 +79,63 @@ shinyServer(function(input,output) {
   fit <- train(num~., data=data, method="glm", metric="Accuracy", trControl=control)
   # display results
   
+  # C4.5 Algorithm
   
+  # fit model
+  fit1 <- J48(num~., data=data)
+  # make predictions for confusion matrix
+  predictions <- predict(fit1, newdata = test[-14], type ='class')
+
+  #tree
+  rpartModel <- rpart(num~.,data=train,control = rpart.control(num=0))
+ 
+  # summarize accuracy
+  control1 <- trainControl(method="boot", number=3)
+  set.seed(14)
+  fit2 <- train(num~., data=data, method="glm", metric="Accuracy", trControl=control1)
   
+  #########################id3 algorithm#######################
+
+  fit4 <- decision::(num~. ,data=data)
+  # summarize the fit
+
+  predictions <- predict(fit4, newdata = test[-14], type ='class')
+ 
+  # display results
   output$accuray <- renderPrint({
     print(fit)
+  })
+  
+  
+  output$accuray1 <- renderPrint({
+    print(fit2)
   })
   
   output$confusionmatrix <- renderPrint({
     table(test[,14], pred)
   })
   
+  output$confusionmatrix1 <- renderPrint({
+    table(test[,14], predictions)
+  })
+  
+  output$confusionmatrix2 <- renderPrint({
+    table(test[,14], predictions)
+  })
   
   output$Tree <- renderPlot({
     rpart.plot(rtf, box.palette="RdBu", shadow.col="gray", nn=TRUE)
   })
   
+  output$Tree1 <- renderPlot({
+    rpart.plot(rpartModel)
+  })
+  
+  output$Tree2 <- renderPlot({
+    plot(fit3,uniform=TRUE, main="Decision Tree for dataset1")
+    text(fit3,pretty=0,cex=.7)
+    
+  })
   
   output$msgOutput <-renderMenu({
     
