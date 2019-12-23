@@ -5,6 +5,8 @@ library(randomForest)
 library(caret)
 library(rpart)
 library(rpart.plot)
+library(RWeka)
+library(decision)
 #Ctrl + Shift + C to comment all selcted  
 
 shinyUI(
@@ -47,16 +49,25 @@ shinyUI(
     dashboardBody(
       tabItems(
         tabItem(tabName = "DescionTreeID3",
-                h1("Descion Tree id3")
-                
-        #closing of fluid Row
-        # helpText("Prediction Results Using Testing data"),
-        # verbatimTextOutput('confusionmatrix')
+                h1("Descion Tree id3"),
+                fluidRow(
+                  box( title = "Decision Tree", status = "primary",solidHeader = T,background = "olive" , helpText("Decision Tree of Testing data"),
+                       plotOutput('Tree2' )),
+                  box(title = "Confusion Matrix", status = "primary",solidHeader = T,background = "olive" , helpText("Prediction Results Using Testing data"),
+                      verbatimTextOutput('confusionmatrix2'))
+                )
       ), # closing of menuitem
       
       tabItem(tabName = "DescionTreeC45" ,
-              h1("Descion Tree C4.5")
-              
+              h1("Descion Tree C4.5"),
+              fluidRow(
+                box( title = "Decision Tree", status = "primary",solidHeader = T,background = "olive" , helpText("Decision Tree of Testing data"),
+                     plotOutput('Tree1')),
+                box(title = "Confusion Matrix", status = "primary",solidHeader = T,background = "olive" , helpText("Prediction Results Using Testing data"),
+                    verbatimTextOutput('confusionmatrix1')),
+                box(title = "Accuray", status = "primary",solidHeader = T,background = "olive" , helpText("Accuracy of Testing Data"),
+                    verbatimTextOutput('accuray1'))
+              )
       ), # closing of menuitem
       
       
@@ -67,7 +78,7 @@ shinyUI(
                      plotOutput('Tree' )),
                 box(title = "Confusion Matrix", status = "primary",solidHeader = T,background = "olive" , helpText("Prediction Results Using Testing data"),
                     verbatimTextOutput('confusionmatrix')),
-                box(title = "Accuray",  status = "primary",solidHeader = T,background = "olive" , helpText("Accuracy of Testing Data"),
+                box(title = "Accuray", status = "primary",solidHeader = T,background = "olive" , helpText("Accuracy of Testing Data"),
                     verbatimTextOutput('accuray'))
                 
                 
